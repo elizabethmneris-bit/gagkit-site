@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gagkit — Send a Laugh</title>
+  <meta name="description" content="Gagkit — gag gift kits with optional anonymous sending. Warm retro vibes, fast shipping, easy checkout.">
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body class="retro">
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="index.html">
+        <img src="assets/logo.jpg" alt="Gagkit logo" width="36" height="36">
+        <span>Gagkit</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#products">Shop</a>
+        <a href="faq.html">FAQ</a>
+        <a href="policy.html">Policy</a>
+      </nav>
+      <button class="cart-btn" data-open-cart aria-label="Open cart">
+        <span class="cart-count" data-cart-count>0</span> 🛒
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero__grid">
+        <div>
+          <h1>Send a laugh — anonymously if you like.</h1>
+          <p class="lead">Discreet packaging, warm vibes, zero hassle.</p>
+          <div class="cta">
+            <a class="btn" href="#products">Shop All Kits</a>
+            <a class="btn btn--ghost" href="faq.html">How it works</a>
+          </div>
+          <ul class="bullets" role="list">
+            <li>✔ Anonymous sender option</li>
+            <li>✔ Ships in 1–2 business days</li>
+            <li>✔ Free printed gift note</li>
+          </ul>
+        </div>
+        <figure class="hero-card" aria-label="Featured">
+          <figcaption>Featured Kit</figcaption>
+          <img src="assets/mental-breakdown.jpg" alt="Mental Breakdown Kit" class="feature-img">
+          <figcaption class="muted tiny">The internet's favorite: <strong>Mental Breakdown Kit</strong></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="products" class="section">
+      <div class="container">
+        <header class="section__header">
+          <h2>Our Kits</h2>
+          <p class="muted">Funny, kind, and ready to ship.</p>
+        </header>
+        <div class="grid" id="productGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container highlights">
+        <article>
+          <h3>Anonymous Sending</h3>
+          <p>We can omit the sender’s name and print your cheeky note. Please prank responsibly.</p>
+        </article>
+        <article>
+          <h3>Warm Retro Vibes</h3>
+          <p>Soft oranges, tan, and off-white. Friendly design that feels like a hug.</p>
+        </article>
+        <article>
+          <h3>Easy Checkout</h3>
+          <p>Pay by card (Stripe) or use email order as a backup.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© 2025 Gagkit. All rights reserved.</p>
+      <nav class="footer__nav">
+        <a href="policy.html#shipping">Shipping</a>
+        <a href="policy.html#returns">Returns</a>
+        <a href="policy.html#terms">Terms</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <aside class="cart" data-cart aria-hidden="true">
+    <div class="cart__header">
+      <h2>Your Cart</h2>
+      <button class="icon" data-close-cart aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart__items" data-cart-items></div>
+    <div class="cart__footer">
+      <div class="cart__row"><span>Subtotal</span><strong data-cart-subtotal>$0.00</strong></div>
+      <a class="btn btn--full" href="checkout.html">Checkout</a>
+      <p class="muted tiny">Taxes & shipping calculated at checkout.</p>
+    </div>
+  </aside>
+  <div class="cart-backdrop" data-cart-backdrop hidden></div>
+
+  <!-- Product details modal -->
+  <dialog id="productDialog">
+    <article class="dialog-card">
+      <button class="icon dialog-close" data-dialog-close aria-label="Close">✕</button>
+      <img id="dlgImage" alt="" class="dlg-img">
+      <h3 id="dlgTitle"></h3>
+      <p class="muted" id="dlgBlurb"></p>
+      <h4>What's inside</h4>
+      <ul id="dlgList"></ul>
+      <div class="dialog-actions">
+        <span class="price" id="dlgPrice"></span>
+        <button class="btn" id="dlgAdd">Add to Cart</button>
+      </div>
+    </article>
+  </dialog>
+</body>
+</html>

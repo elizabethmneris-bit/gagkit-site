@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout — Gagkit</title>
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body class="retro">
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="index.html"><img src="assets/logo.jpg" alt="" width="36" height="36"> <span>Gagkit</span></a>
+      <a class="muted" href="index.html">← Continue shopping</a>
+    </div>
+  </header>
+
+  <main class="checkout container">
+    <section class="checkout__form">
+      <h1>Checkout</h1>
+
+      <form id="orderForm" method="POST" action="https://formspree.io/f/your-form-id">
+        <fieldset>
+          <legend>Sender</legend>
+          <label>From name (optional — leave blank to stay anonymous)
+            <input name="from_name" placeholder="e.g., A friend">
+          </label>
+          <label style="display:flex;gap:.5rem;align-items:center">
+            <input type="checkbox" name="anonymous" value="yes" id="anonBox"> Send anonymously
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Recipient</legend>
+          <label>Full name
+            <input name="name" autocomplete="name" required>
+          </label>
+          <label>Email (for receipt / tracking)
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>Phone (optional)
+            <input type="tel" name="phone" autocomplete="tel">
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Shipping</legend>
+          <label>Address
+            <input name="address" autocomplete="street-address" required>
+          </label>
+          <div class="two">
+            <label>City
+              <input name="city" autocomplete="address-level2" required>
+            </label>
+            <label>State
+              <input name="state" maxlength="2" required>
+            </label>
+          </div>
+          <div class="two">
+            <label>ZIP
+              <input name="zip" autocomplete="postal-code" required>
+            </label>
+            <label>Country
+              <input name="country" value="USA" required>
+            </label>
+          </div>
+          <label>Gift note (we'll print it)
+            <textarea name="gift_note" rows="4" placeholder="Keep it funny but kind 😄"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Order</legend>
+          <div id="orderSummary" class="order-summary" aria-live="polite"></div>
+          <input type="hidden" name="cart_json" id="cartJson">
+          <input type="hidden" name="totals_json" id="totalsJson">
+        </fieldset>
+
+        <div class="pay-actions">
+          <button id="stripePay" class="btn btn--full" type="button">Pay with Card (Stripe)</button>
+          <div class="or">or</div>
+          <button class="btn btn--ghost btn--full" type="submit">Email Order</button>
+        </div>
+
+        <p class="muted tiny">Card payments powered by Stripe Checkout. Email order uses Formspree (manual invoice).</p>
+      </form>
+    </section>
+
+    <aside class="checkout__sidebar">
+      <div class="card">
+        <h2>Secure Payments</h2>
+        <p class="muted">Stripe Checkout opens in a secure window. No card data touches our site.</p>
+      </div>
+      <div class="card">
+        <h2>Questions?</h2>
+        <p>Email <a href="mailto:orders@example.com">orders@example.com</a>.</p>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const form = document.getElementById('orderForm');
+    const anon = document.getElementById('anonBox');
+    form?.addEventListener('submit', function(){ if(anon?.checked) { const f=form.querySelector('input[name="from_name"]'); if(f && !f.value.trim()) f.value = "Anonymous"; } });
+    document.getElementById('stripePay')?.addEventListener('click', async () => {
+      const cart = localStorage.getItem('cart') || '[]';
+      const res = await fetch('/api/create-checkout-session', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ cart: JSON.parse(cart) })
+      });
+      const data = await res.json();
+      if(data?.url) window.location = data.url; else alert(data?.error || 'Payment init failed');
+    });
+  });
+  </script>
+</body>
+</html>
